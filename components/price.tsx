@@ -1,10 +1,11 @@
 import { addDays } from 'date-fns';
 import { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { NumericFormat } from 'react-number-format';
 import getPriceByTime from '../util/getPriceByTime';
 import Card from './ui/card';
 import PercentChange from './ui/percent-change';
+import { ThemedText as Text } from './ui/ThemedText';
 
 export default function Price() {
   const [price, setPrice] = useState<number>(10);

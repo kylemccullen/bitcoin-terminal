@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { Colors } from '../constants/colors';
+import { ThemedText } from './ui/ThemedText';
 
 interface Props {
   style: ViewStyle;
@@ -20,7 +21,7 @@ export default function PriorityItem(props: Props) {
         {props.titleText}
       </Text>
       <View style={styles.fee}>
-        <Text style={styles.feeValue}>{props.value ?? '-'}</Text>
+        <ThemedText style={styles.feeValue}>{props.value ?? '-'}</ThemedText>
         <Text style={styles.unit}>sats/vB</Text>
       </View>
     </View>

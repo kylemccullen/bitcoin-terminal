@@ -3,11 +3,11 @@ import BlockHeight from '../components/block-height';
 import Price from '../components/price';
 import PriceHistory from '../components/price-history';
 import TransactionFee from '../components/transaction-fees';
-import { Colors } from '../constants/colors';
+import { ThemedView } from '../components/ui/ThemedView';
 
 export default function Index() {
   return (
-    <View style={styles.wrapper}>
+    <ThemedView style={styles.wrapper} backgroundColorName='backdrop'>
       <ScrollView>
         <View style={styles.cards}>
           <Price />
@@ -16,14 +16,13 @@ export default function Index() {
           <TransactionFee />
         </View>
       </ScrollView>
-    </View>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: Colors.background,
     paddingTop: Platform.OS == 'ios' ? 60 : 20,
   },
   cards: {

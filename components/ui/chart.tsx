@@ -1,6 +1,7 @@
 import { View } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { Colors } from '../../constants/colors';
+import { useThemeColor } from '../../hooks/useThemeColor';
 
 interface Props {
   width: number;
@@ -9,6 +10,8 @@ interface Props {
 }
 
 export default function Chart(props: Props) {
+  const backgroundColor = useThemeColor('background');
+
   return (
     <View style={{ overflow: 'hidden' }}>
       <LineChart
@@ -29,8 +32,8 @@ export default function Chart(props: Props) {
         withOuterLines={false}
         withDots={false}
         chartConfig={{
-          backgroundGradientFrom: '#fff',
-          backgroundGradientTo: '#fff',
+          backgroundGradientFrom: backgroundColor,
+          backgroundGradientTo: backgroundColor,
           color: () => Colors.primary,
           style: {
             borderRadius: 16,

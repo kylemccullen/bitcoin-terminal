@@ -1,18 +1,14 @@
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { useEffect, useState } from 'react';
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { NumericFormat } from 'react-number-format';
+import { useThemeColor } from '../hooks/useThemeColor';
 import { HistoryOption } from '../models/history-option';
 import getPriceHistoryByOption from '../util/getPriceHistoryByOption';
 import Card from './ui/card';
 import Chart from './ui/chart';
 import PercentChange from './ui/percent-change';
+import { ThemedText as Text } from './ui/ThemedText';
 
 export default function PriceHistory() {
   const historyOptions = Object.values(HistoryOption);
@@ -33,6 +29,10 @@ export default function PriceHistory() {
     })();
   }, [selectedOption]);
 
+  const getColor = (option: HistoryOption) => {
+    return useThemeColor(option === selectedOption ? 'activeBackground' : 'background');
+  };
+
   return (
     <Card>
       <View style={styles.wrapper}>
@@ -44,6 +44,7 @@ export default function PriceHistory() {
                   ? 'arrow-trend-up'
                   : 'arrow-trend-down'
               }
+              color={useThemeColor('text')}
             />
             <NumericFormat
               value={Math.abs(priceChange)}
@@ -80,10 +81,7 @@ export default function PriceHistory() {
                   <Text
                     style={{
                       ...styles.option,
-                      backgroundColor:
-                        option === selectedOption
-                          ? '#E8EAED'
-                          : 'white',
+                      backgroundColor: getColor(option)
                     }}
                   >
                     {option}

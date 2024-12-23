@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { NumericFormat } from 'react-number-format';
 import { Colors } from '../constants/colors';
 import getBlockHeight from '../util/getBlockHeight';
 import Card from './ui/card';
+import { ThemedText as Text } from './ui/ThemedText';
 
 const BLOCK_HALVENING = 210000;
 

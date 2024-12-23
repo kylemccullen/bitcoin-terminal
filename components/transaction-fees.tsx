@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Colors } from '../constants/colors';
 import { RecommendedTransactionFee } from '../models/transaction-fee';
 import getRecommendedTransactionFees from '../util/getRecommendedTransactionFees';
 import PriorityItem from './priority-item';
 import Card from './ui/card';
+import { ThemedText as Text } from './ui/ThemedText';
 
 export default function TransactionFee() {
   const [transactionFees, setTransactionFees] =

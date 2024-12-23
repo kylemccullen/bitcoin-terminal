@@ -1,12 +1,12 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { ThemedView } from '../ui/ThemedView';
 
 export default function Card(props: { children: any }) {
-  return <View style={styles.card}>{props.children}</View>;
+  return <ThemedView style={styles.card}>{props.children}</ThemedView>;
 }
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#fff',
     padding: 20,
     borderRadius: 10,
   },
