@@ -8,4 +8,4 @@ A simple bitcoin terminal built in React-Native.
  - Block Height
  - Transaction Fees
 
-![screenshot](screenshot.png)
+<img src="screenshot.png" width="250" />
