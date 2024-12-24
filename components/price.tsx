@@ -1,14 +1,18 @@
 import { addDays } from 'date-fns';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { NumericFormat } from 'react-number-format';
+import { PriceContext } from '../context/price-context';
 import getPriceByTime from '../util/getPriceByTime';
 import Card from './ui/card';
 import PercentChange from './ui/percent-change';
 import { ThemedText as Text } from './ui/ThemedText';
 
 export default function Price() {
-  const [price, setPrice] = useState<number>(10);
+  const {
+    price,
+    setPrice,
+  } = useContext(PriceContext);
   const [percentChange, setPercentChange] = useState<number>(5);
 
   useEffect(() => {
@@ -16,7 +20,7 @@ export default function Price() {
       var currentPrice = await getPriceByTime();
       var priceOneDayAgo = await getPriceByTime(addDays(new Date(), -1));
 
-      setPrice(currentPrice);
+      setPrice?.(currentPrice);
       setPercentChange((currentPrice / priceOneDayAgo - 1) * 100);
     })();
   }, []);
@@ -30,7 +34,7 @@ export default function Price() {
             style={styles.bitcoinLogo}
           />
           <NumericFormat
-            value={price.toFixed(2)}
+            value={price?.toFixed(2)}
             displayType={'text'}
             thousandSeparator={true}
             prefix={'$'}

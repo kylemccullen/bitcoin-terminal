@@ -4,19 +4,22 @@ import Price from '../components/price';
 import PriceHistory from '../components/price-history';
 import TransactionFee from '../components/transaction-fees';
 import { ThemedView } from '../components/ui/ThemedView';
+import { PriceProvider } from '../context/price-context';
 
 export default function Index() {
   return (
-    <ThemedView style={styles.wrapper} backgroundColorName='backdrop'>
-      <ScrollView>
-        <View style={styles.cards}>
-          <Price />
-          <PriceHistory />
-          <BlockHeight />
-          <TransactionFee />
-        </View>
-      </ScrollView>
-    </ThemedView>
+    <PriceProvider>
+      <ThemedView style={styles.wrapper} backgroundColorName="backdrop">
+        <ScrollView>
+          <View style={styles.cards}>
+            <Price />
+            <PriceHistory />
+            <BlockHeight />
+            <TransactionFee />
+          </View>
+        </ScrollView>
+      </ThemedView>
+    </PriceProvider>
   );
 }
 
