@@ -30,7 +30,7 @@ export default function Price() {
       <View style={styles.wrapper}>
         <View style={styles.price}>
           <Image
-            source={require('@/assets/images/bitcoin-logo.png')}
+            source={require('../assets/images/bitcoin-logo.png')}
             style={styles.bitcoinLogo}
           />
           <NumericFormat
