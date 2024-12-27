@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { Currency } from '../models/currency';
 import { API_KEY, API_URL } from '../secrets';
 
-const getPriceByTime = async (date?: Date | null): Promise<number> => {
-  const response = await axios.get(`${API_URL}/btc/usd`, {
+const getPriceByTime = async (currency: Currency | undefined, date?: Date | null): Promise<number> => {
+  const response = await axios.get(`${API_URL}/btc/${currency}`, {
     params: {
       time: date?.toISOString(),
     },

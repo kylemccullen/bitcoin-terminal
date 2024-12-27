@@ -1,8 +1,9 @@
 import { useContext } from 'react';
 import { StyleSheet, Text, View, ViewStyle } from 'react-native';
-import { NumericFormat } from 'react-number-format';
 import { Colors } from '../constants/colors';
 import { PriceContext } from '../context/price-context';
+import { SettingsContext } from '../context/settings-context';
+import CurrencyText from './ui/currency-text';
 import { ThemedText } from './ui/ThemedText';
 
 interface Props {
@@ -15,6 +16,7 @@ interface Props {
 const AVERAGE_VB_PER_TRANSACTION = 150
 
 export default function PriorityItem(props: Props) {
+  const { settings } = useContext(SettingsContext);
   const { price } = useContext(PriceContext);
 
   const averageFee = (price ?? 0) * (props.value ?? 0) * AVERAGE_VB_PER_TRANSACTION / 100000000;
@@ -33,15 +35,11 @@ export default function PriorityItem(props: Props) {
         <ThemedText style={styles.feeValue}>{props.value ?? '-'}</ThemedText>
         <Text style={styles.unit}>sats/vB</Text>
       </View>
-      <NumericFormat
-        value={(averageFee).toFixed(2)}
-        displayType={'text'}
-        thousandSeparator={true}
-        prefix={'~ $'}
-        renderText={(text) => (
-          <ThemedText style={styles.costText}>{text}</ThemedText>
-        )}
-      />
+      <CurrencyText
+        style={styles.costText}
+        value={averageFee}
+        currency={settings?.currency!}
+        prefix='~ ' />
     </View>
   );
 }

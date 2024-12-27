@@ -2,6 +2,7 @@ import axios from 'axios';
 import { subDays, subHours, subMonths, subWeeks, subYears } from 'date-fns';
 import { HistoryOption } from '../models/history-option';
 import { API_KEY, API_URL } from '../secrets';
+import { Currency } from '../models/currency';
 
 var options: Record<HistoryOption, any> = {
   [HistoryOption.Hour]: {
@@ -27,10 +28,11 @@ var options: Record<HistoryOption, any> = {
 };
 
 const getPriceHistoryByOption = async (
+  currency: Currency,
   option: HistoryOption
 ): Promise<number[]> => {
   try {
-    const response = await axios.get(`${API_URL}/btc/usd/history`, {
+    const response = await axios.get(`${API_URL}/btc/${currency}/history`, {
       params: {
         period_id: options[option].periodId,
         time_start: options[option].getStart().toISOString(),

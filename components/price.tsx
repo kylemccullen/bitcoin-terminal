@@ -1,29 +1,31 @@
 import { addDays } from 'date-fns';
 import { useContext, useEffect, useState } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
-import { NumericFormat } from 'react-number-format';
 import { PriceContext } from '../context/price-context';
+import { SettingsContext } from '../context/settings-context';
 import getPriceByTime from '../util/getPriceByTime';
 import Card from './ui/card';
+import CurrencyText from './ui/currency-text';
 import PercentChange from './ui/percent-change';
 import { ThemedText as Text } from './ui/ThemedText';
 
 export default function Price() {
-  const {
-    price,
-    setPrice,
-  } = useContext(PriceContext);
+  const { price, setPrice } = useContext(PriceContext);
+  const { settings } = useContext(SettingsContext);
   const [percentChange, setPercentChange] = useState<number>(5);
 
   useEffect(() => {
     (async () => {
-      var currentPrice = await getPriceByTime();
-      var priceOneDayAgo = await getPriceByTime(addDays(new Date(), -1));
+      var currentPrice = await getPriceByTime(settings?.currency);
+      var priceOneDayAgo = await getPriceByTime(
+        settings?.currency,
+        addDays(new Date(), -1)
+      );
 
       setPrice?.(currentPrice);
       setPercentChange((currentPrice / priceOneDayAgo - 1) * 100);
     })();
-  }, []);
+  }, [settings?.currency]);
 
   return (
     <Card>
@@ -33,14 +35,10 @@ export default function Price() {
             source={require('../assets/images/bitcoin-logo.png')}
             style={styles.bitcoinLogo}
           />
-          <NumericFormat
-            value={price?.toFixed(2)}
-            displayType={'text'}
-            thousandSeparator={true}
-            prefix={'$'}
-            renderText={(text) => (
-              <Text style={styles.priceText}>{text}</Text>
-            )}
+          <CurrencyText
+            style={styles.priceText}
+            value={price}
+            currency={settings?.currency!}
           />
         </View>
         <View style={styles.percentChange}>

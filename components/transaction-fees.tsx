@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import { Modal, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Colors } from '../constants/colors';
+import { useThemeColor } from '../hooks/useThemeColor';
 import { RecommendedTransactionFee } from '../models/transaction-fee';
 import getRecommendedTransactionFees from '../util/getRecommendedTransactionFees';
 import PriorityItem from './priority-item';
@@ -13,6 +14,7 @@ export default function TransactionFee() {
   const [transactionFees, setTransactionFees] =
     useState<RecommendedTransactionFee | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const borderColor = useThemeColor('border');
 
   useEffect(() => {
     (async () => {
@@ -30,7 +32,7 @@ export default function TransactionFee() {
         <Modal visible={modalVisible} transparent={true} animationType='fade'>
           <View style={styles.modalContainer}>
             <ThemedView style={styles.modal}>
-              <ThemedText style={styles.modalHeader}>Recommended Transaction Fees</ThemedText>
+              <ThemedText style={[styles.modalHeader, { borderColor }]}>Recommended Transaction Fees</ThemedText>
               <ThemedText style={styles.modalContent}>Displays recommended transaction fees based on priority. Cost estimation denotes the average transaction size of 150 vB.</ThemedText>
               <View style={styles.actionContainer}>
                 <TouchableOpacity onPress={() => setModalVisible(false)}>

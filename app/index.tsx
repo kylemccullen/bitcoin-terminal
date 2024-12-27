@@ -1,5 +1,6 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Actions from '../components/actions';
 import BlockHeight from '../components/block-height';
 import Price from '../components/price';
 import PriceHistory from '../components/price-history';
@@ -10,7 +11,10 @@ import { PriceProvider } from '../context/price-context';
 export default function Index(): React.JSX.Element {
   return (
     <PriceProvider>
-      <ThemedView style={styles.wrapper} backgroundColorName="backdrop">
+      <ThemedView
+        style={styles.wrapper}
+        backgroundColorName="backdrop"
+      >
         <SafeAreaView>
           <ScrollView>
             <View style={styles.cards}>
@@ -18,6 +22,7 @@ export default function Index(): React.JSX.Element {
               <PriceHistory />
               <BlockHeight />
               <TransactionFee />
+              <Actions />
             </View>
           </ScrollView>
         </SafeAreaView>
@@ -28,7 +33,8 @@ export default function Index(): React.JSX.Element {
 
 const styles = StyleSheet.create({
   wrapper: {
-    paddingTop: 10
+    paddingTop: 10,
+    paddingBottom: 30,
   },
   cards: {
     marginHorizontal: 20,

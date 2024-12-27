@@ -1,16 +1,18 @@
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { NumericFormat } from 'react-number-format';
+import { SettingsContext } from '../context/settings-context';
 import { useThemeColor } from '../hooks/useThemeColor';
 import { HistoryOption } from '../models/history-option';
 import getPriceHistoryByOption from '../util/getPriceHistoryByOption';
 import Card from './ui/card';
 import Chart from './ui/chart';
+import CurrencyText from './ui/currency-text';
 import PercentChange from './ui/percent-change';
 import { ThemedText as Text } from './ui/ThemedText';
 
 export default function PriceHistory() {
+  const { settings } = useContext(SettingsContext);
   const historyOptions = Object.values(HistoryOption);
   const [selectedOption, setSelectedOption] = useState<HistoryOption>(
     HistoryOption.Day
@@ -21,16 +23,21 @@ export default function PriceHistory() {
 
   useEffect(() => {
     (async () => {
-      const result = await getPriceHistoryByOption(selectedOption);
+      const result = await getPriceHistoryByOption(
+        settings?.currency!,
+        selectedOption
+      );
       setData(result);
       const priceChangeTemp = result[result.length - 1] - result[0];
       setPriceChange(priceChangeTemp);
       setPriceChangePercent((priceChangeTemp / result[0]) * 100);
     })();
-  }, [selectedOption]);
+  }, [selectedOption, settings?.currency]);
 
   const getColor = (option: HistoryOption) => {
-    return useThemeColor(option === selectedOption ? 'activeBackground' : 'background');
+    return useThemeColor(
+      option === selectedOption ? 'activeBackground' : 'background'
+    );
   };
 
   return (
@@ -39,24 +46,13 @@ export default function PriceHistory() {
         <View style={styles.overview}>
           <View style={styles.priceChange}>
             <FontAwesome6
-              name={
-                priceChange > 0
-                  ? 'arrow-trend-up'
-                  : 'arrow-trend-down'
-              }
+              name={priceChange > 0 ? 'arrow-trend-up' : 'arrow-trend-down'}
               color={useThemeColor('text')}
             />
-            <NumericFormat
+            <CurrencyText
+              style={styles.priceChangeText}
               value={Math.abs(priceChange)}
-              displayType={'text'}
-              thousandSeparator={true}
-              prefix={'$'}
-              decimalScale={2}
-              renderText={(text) => (
-                <Text style={styles.priceChangeText}>
-                  {text}
-                </Text>
-              )}
+              currency={settings?.currency!}
             />
           </View>
           <PercentChange value={priceChangePercent} />
@@ -71,25 +67,23 @@ export default function PriceHistory() {
           )}
         </View>
         <View style={styles.options}>
-          {historyOptions.map(
-            (option: HistoryOption, index: number) => {
-              return (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => setSelectedOption(option)}
+          {historyOptions.map((option: HistoryOption, index: number) => {
+            return (
+              <TouchableOpacity
+                key={index}
+                onPress={() => setSelectedOption(option)}
+              >
+                <Text
+                  style={{
+                    ...styles.option,
+                    backgroundColor: getColor(option),
+                  }}
                 >
-                  <Text
-                    style={{
-                      ...styles.option,
-                      backgroundColor: getColor(option)
-                    }}
-                  >
-                    {option}
-                  </Text>
-                </TouchableOpacity>
-              );
-            }
-          )}
+                  {option}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
       </View>
     </Card>

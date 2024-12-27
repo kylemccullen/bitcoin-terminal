@@ -31,17 +31,14 @@ export default function Metrics() {
           value={blockHeight}
           displayType={'text'}
           thousandSeparator={true}
-          renderText={(text) => (
-            <Text style={styles.headerValue}>{text}</Text>
-          )}
+          renderText={(text) => <Text style={styles.headerValue}>{text}</Text>}
         />
       </View>
       <View style={styles.bar}>
         <View
           style={{
             ...styles.fill,
-            width: `${(1 - blocksToHalvening / BLOCK_HALVENING) * 100
-              }%`,
+            width: `${(1 - blocksToHalvening / BLOCK_HALVENING) * 100}%`,
           }}
         />
       </View>
